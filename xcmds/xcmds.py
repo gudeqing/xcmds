@@ -5,7 +5,16 @@ import sys
 
 
 class xcmds(object):
+    """
+    Translate functions into commands
+    """
     def __init__(self, callable_dict:dict, exclude:list = None, include:list=None, log=True):
+        """
+        :param callable_dict: a dict, {'function name': 'function_object', ...}.Usually it is result of locals()
+        :param exclude: a list, do not translate functions in it
+        :param include: a list, only translate functions in it
+        :param log: if save command line into a log file
+        """
         self.log = log
         callable_dict = {x: y for x, y in callable_dict.items() if callable(y)}
         exclude = set(exclude) if exclude else set()
@@ -80,7 +89,7 @@ class xcmds(object):
         args = parser.parse_args().__dict__
         if self.log:
             try:
-                with open("cmd." + str(time.time()) + ".txt", 'w') as f:
+                with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
                     f.write(' '.join(sys.argv) + '\n')
             except IOError:
                 print('Current Directory may be not writable, thus argument log is not written !')
