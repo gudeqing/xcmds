@@ -19,3 +19,5 @@ if __name__ == '__main__':
 python example.py func -a 199
 
 ```
+
+See [document](https://gudeqing.github.io/xcmds/ "With a Title").
