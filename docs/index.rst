@@ -13,6 +13,29 @@ Welcome to xcmds's documentation!
 .. automodule:: xcmds.xcmds
    :members:
 
+Example
+========
+example.py::
+
+   from xcmds.xcmds import xcmds
+   from pprint import pprint as print
+
+
+   def func(a=1, b=2):
+       print(a*b)
+
+
+   def func2(a='x', b=3):
+       print([a]*b)
+
+
+   if __name__ == '__main__':
+       xcmds(locals(), exclude=['print'])
+
+Now all functions in example.py are ready to be called with command line,
+eg. Type in terminal::
+
+   python example.py func -a 100
 
 
 Indices and tables
