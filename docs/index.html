@@ -40,6 +40,30 @@
 <dd><p>Translate functions into commands</p>
 </dd></dl>
 
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>content of example.py:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xcmds.xcmds</span> <span class="k">import</span> <span class="n">xcmds</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span> <span class="k">as</span> <span class="nb">print</span>
+
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">func2</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">a</span><span class="p">]</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">xcmds</span><span class="p">(</span><span class="nb">locals</span><span class="p">(),</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;print&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now functions in example.py are ready be called with commandline, such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="n">func</span> <span class="o">-</span><span class="n">a</span> <span class="mi">2</span> <span class="o">-</span><span class="n">b</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>

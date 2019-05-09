@@ -13,6 +13,29 @@ Welcome to xcmds's documentation!
 .. automodule:: xcmds.xcmds
    :members:
 
+Example
+----------------
+content of example.py::
+
+   from xcmds.xcmds import xcmds
+   from pprint import pprint as print
+
+
+   def func(a=1, b=2):
+       print(a*b)
+
+
+   def func2(a='x', b=3):
+       print([a]*b)
+
+
+   if __name__ == '__main__':
+       xcmds(locals(), exclude=['print'])
+
+Now functions in example.py are ready be called with commandline, such as::
+
+   python example.py func -a 2 -b 3
+
 Indices and tables
 ==================
 
