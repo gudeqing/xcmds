@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
       name='xcmds',
-      version='0.1',
+      version='1.0.0',
       url='https://github.com/gudeqing/xcmds',
       license='MIT',
       author='gudeqing',
@@ -14,11 +14,11 @@ setup(
       zip_safe=False,
       classifiers = [
             "Development Status :: 1 - Alpha",
-            "Programming Language :: Python :: 3", "Environment :: Console",
+            "Programming Language :: Python :: 3",
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
             "Intended Audience :: Science/Research",
             "Topic :: Scientific/Engineering :: bio informatics"
         ],
-      install_requires=["argparse>=1.4.0"],
+      install_requires=["argparse>=1.1.0"],
       setup_requires=[],
 )

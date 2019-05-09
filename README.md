@@ -1,6 +1,7 @@
 xcmds
 -----
-* pip install xcmds
+* pip install dist/*gz
+
 * example.py:
 ```
 from xcmds import xcmds
