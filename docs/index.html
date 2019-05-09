@@ -38,6 +38,16 @@
 <dt id="xcmds.xcmds.xcmds">
 <em class="property">class </em><code class="descclassname">xcmds.xcmds.</code><code class="descname">xcmds</code><span class="sig-paren">(</span><em>callable_dict: dict</em>, <em>exclude: list = None</em>, <em>include: list = None</em>, <em>log=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/xcmds/xcmds.html#xcmds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#xcmds.xcmds.xcmds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate functions into commands</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callable_dict</strong> – a dict, {‘function name’: ‘function_object’, …}.Usually it is result of locals()</p></li>
+<li><p><strong>exclude</strong> – a list, do not translate functions in it</p></li>
+<li><p><strong>include</strong> – a list, only translate functions in it</p></li>
+<li><p><strong>log</strong> – if save command line into a log file</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <div class="section" id="example">
