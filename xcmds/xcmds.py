@@ -24,23 +24,63 @@ class xcmds(object):
         _ = [callable_dict.pop(x) for x in exclude if x in callable_dict]
         self.run(callable_dict)
 
+    def description2dict(self, description):
+        """
+        this will only work with doc string in pycharm style
+        :param description: docstring
+        :return:
+        """
+        split_docstring = description.strip().split(':param', 1)
+        desc_dict = dict()
+        if len(split_docstring) == 2:
+            # docstring in pycharm style
+            summary, arg_spec = split_docstring
+            desc_dict['summary'] = summary.strip()
+            arg_spec = ':param' + arg_spec
+            for line in arg_spec.split('\n'):
+                line = line.strip()
+                if line.startswith(':param'):
+                    arg_name, arg_detail = line.split(':param', 1)[1].split(":", 1)
+                    desc_dict[arg_name.strip()] = arg_detail
+                elif line.startswith(':return:'):
+                    arg_name = 'return'
+                    arg_detail = line.split(':return:', 1)[1]
+                    desc_dict[arg_name] = arg_detail
+                else:
+                    desc_dict[arg_name.strip()] += '\n' + line
+            else:
+                return desc_dict
+        else:
+            return dict()
+
     def introduce_command(self, func):
         if isinstance(func, type):
             description = func.__init__.__doc__
         else:
             description = func.__doc__
+        desc_dict = self.description2dict(description)
+        if desc_dict:
+            description = None
         if '-h' not in sys.argv or '--help' in sys.argv or '-help' in sys.argv:
             description = None
         if description:
             _ = [print(x.strip()) for x in description.split('\n') if x.strip()]
             parser = argparse.ArgumentParser(add_help=False)
         else:
+            if desc_dict:
+                description = desc_dict['summary']
             parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter, description=description)
         parser.prog = func.__name__
         func_args = inspect.getfullargspec(func)
         arg_names = func_args.args
         if not arg_names:
             func()
+            if self.log:
+                try:
+                    with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
+                        f.write(' '.join(sys.argv) + '\n')
+                except IOError:
+                    print('Current Directory may be not writable, thus argument log is not written !')
             return
         arg_defaults = func_args.defaults
         if not arg_defaults:
@@ -50,26 +90,27 @@ class xcmds(object):
         for arg, value in zip(arg_names, arg_defaults):
             if arg == 'self':
                 continue
+            help_info = desc_dict[arg] if arg in desc_dict else ''
             arg_type = sig.parameters[arg].annotation
             if value == 'None':
                 if arg_type in [list, tuple, set]:
-                    parser.add_argument('-' + arg, nargs='+', required=True, metavar=arg)
+                    parser.add_argument('-' + arg, nargs='+', required=True, metavar=arg, help=help_info)
                 elif arg_type in [int, str, float]:
-                    parser.add_argument('-' + arg, type=arg_type, required=True, metavar=arg)
+                    parser.add_argument('-' + arg, type=arg_type, required=True, metavar=arg, help=help_info)
                 else:
-                    parser.add_argument('-'+arg, required=True, metavar=arg)
+                    parser.add_argument('-'+arg, required=True, metavar=arg, help=help_info)
             elif type(value) == bool:
                 if value:
-                    parser.add_argument('--'+arg, action="store_false", help='default: True')
+                    parser.add_argument('--'+arg, action="store_false", help=help_info or 'default: True')
                 else:
-                    parser.add_argument('--'+arg, action="store_true", help='default: False')
+                    parser.add_argument('--'+arg, action="store_true", help=help_info or 'default: False')
             elif value is None:
                 if arg_type in [list, tuple, set]:
-                    parser.add_argument('-' + arg, nargs='+', required=False, metavar=arg)
+                    parser.add_argument('-' + arg, nargs='+', required=False, metavar=arg, help=help_info)
                 elif arg_type in [int, str, float]:
-                    parser.add_argument('-' + arg, type=arg_type, required=False, metavar=arg)
+                    parser.add_argument('-' + arg, type=arg_type, required=False, metavar=arg, help=help_info)
                 else:
-                    parser.add_argument('-'+arg, required=False, metavar='Default:' + str(value))
+                    parser.add_argument('-'+arg, required=False, metavar='Default:' + str(value), help=help_info)
             else:
                 if arg_type in [list, tuple, set] or (type(value) in [list, tuple, set]):
                     default_value = ' '.join(str(x) for x in value)
@@ -78,10 +119,10 @@ class xcmds(object):
                     else:
                         one_value = value.pop()
                     parser.add_argument('-' + arg, default=value, nargs='+', type=type(one_value),
-                                        metavar='Default:'+default_value, )
+                                        metavar='Default:'+default_value, help=help_info)
                 else:
                     parser.add_argument('-' + arg, default=value, type=type(value),
-                                        metavar='Default:' + str(value), )
+                                        metavar='Default:' + str(value), help=help_info)
         if func_args.varargs is not None:
             print("warning: *varargs is not supported, and will be neglected! ")
         if func_args.varkw is not None:
@@ -91,6 +132,7 @@ class xcmds(object):
             try:
                 with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
                     f.write(' '.join(sys.argv) + '\n')
+                    f.write('Detail Argument Value:\n'+str(args)+'\n')
             except IOError:
                 print('Current Directory may be not writable, thus argument log is not written !')
         start = time.time()
