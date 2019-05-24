@@ -30,6 +30,8 @@ class xcmds(object):
         :param description: docstring
         :return:
         """
+        if not description:
+            return dict()
         split_docstring = description.strip().split(':param', 1)
         desc_dict = dict()
         if len(split_docstring) == 2:
