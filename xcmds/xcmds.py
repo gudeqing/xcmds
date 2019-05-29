@@ -133,7 +133,9 @@ class xcmds(object):
         if self.log:
             try:
                 with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
-                    f.write(' '.join(sys.argv) + '\n')
+                    arg_list = list(sys.argv)
+                    arg_list.insert(1, parser.prog)
+                    f.write(' '.join(arg_list) + '\n')
                     f.write('Detail Argument Value:\n'+str(args)+'\n')
             except IOError:
                 print('Current Directory may be not writable, thus argument log is not written !')
