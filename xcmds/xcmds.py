@@ -55,7 +55,7 @@ class xcmds(object):
         else:
             return dict()
 
-    def introduce_command(self, func):
+    def introduce_command(self, func, sub_command=True):
         if isinstance(func, type):
             description = func.__init__.__doc__
         else:
@@ -80,7 +80,10 @@ class xcmds(object):
             if self.log:
                 try:
                     with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
-                        f.write(' '.join(sys.argv) + '\n')
+                        arg_list = list(sys.argv)
+                        if sub_command:
+                            arg_list.insert(1, parser.prog)
+                        f.write(' '.join(arg_list) + '\n')
                 except IOError:
                     print('Current Directory may be not writable, thus argument log is not written !')
             return
@@ -134,7 +137,8 @@ class xcmds(object):
             try:
                 with open("cmd." + parser.prog + '.' + str(time.time()) + ".txt", 'w') as f:
                     arg_list = list(sys.argv)
-                    arg_list.insert(1, parser.prog)
+                    if sub_command:
+                        arg_list.insert(1, parser.prog)
                     f.write(' '.join(arg_list) + '\n')
                     f.write('Detail Argument Value:\n'+str(args)+'\n')
             except IOError:
@@ -157,7 +161,7 @@ class xcmds(object):
             else:
                 print('sub-command: {} is not defined'.format(sub_cmd))
         elif len(callable_dict) == 1:
-            self.introduce_command(callable_dict.pop(list(callable_dict.keys())[0]))
+            self.introduce_command(callable_dict.pop(list(callable_dict.keys())[0]), sub_command=False)
         else:
             raise Exception('No callable object found!')
 

@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
       name='xcmds',
-      version='1.0.0',
+      version='1.5.0',
       url='https://github.com/gudeqing/xcmds',
       license='MIT',
       author='gudeqing',
