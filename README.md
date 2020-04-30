@@ -4,9 +4,7 @@ xcmds
 
 * example.py:
 ```
-from xcmds import xcmds
-
-ddef func(a=1, b=2):
+def func(a=1, b=2):
     print(a*b)
 
 
@@ -15,7 +13,8 @@ def func2(a='x', b=3):
 
 
 if __name__ == '__main__':
-    xcmds(locals())
+    from xcmds import xcmds
+    xcmds.xcmds(locals())
 
 python example.py func -a 199
 
