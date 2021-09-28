@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="dunwill" createEmptyFolders="true">
+  <component name="PublishConfigData" autoUpload="Always" createEmptyFolders="true">
     <serverData>
-      <paths name="dunwill">
+      <paths name="bbt">
         <serverdata>
           <mappings>
             <mapping deploy="/PycharmProjects/xcmds" local="$PROJECT_DIR$" web="/" />
-          </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
-            <excludedPath local="true" path="$PROJECT_DIR$/venv" />
-          </excludedPaths>
-        </serverdata>
-      </paths>
-      <paths name="dunwill133">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
